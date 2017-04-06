@@ -1,23 +1,96 @@
 import { Component } from '@angular/core';
+import {Hero} from './hero';
 
-export class Hero {
-  id: number;
-  name: string;
-}
+const template = `<h1>{{title}}</h1>
+                  <ul class="heroes">
+                      <li *ngFor="let hero of heroList" 
+                          [class.selected]="selectedHero === hero"
+                          (click)="select(hero)">
+                          <span class="badge" >{{hero.id}}</span> {{hero.name}}
+                      </li>
+                  </ul>
+                  <hero-detail [hero]="selectedHero"></hero-detail>
+`;
+
+const heroArray: Hero[] = [
+  {id: 1, name: 'Superman'},
+  {id: 2, name: 'Spiderman'},
+  {id: 3, name: 'Mr. Satan'},
+  {id: 4, name: 'Goku'},
+  {id: 5, name: 'Vegeta'},
+  {id: 6, name: 'Mr. Fantastic'},
+  {id: 7, name: 'Gigi la trottola'},
+  {id: 8, name: 'Capitan Ovvio'},
+  {id: 9, name: 'Peter Pan'},
+];
 
 @Component({
   selector: 'my-app',
-  template: `<h1>{{title}}</h1>
-             <h2>{{hero.name}} details</h2>
-             <div><label>id: </label>{{hero.id}}</div>
-             <div><label>name: </label>{{hero.name}}</div>
-             <input [(ngModel)]="hero.name" placeholder="name">`,
+  template: template,
+  styles: [`
+      .selected {
+          background-color: #CFD8DC !important;
+          color: white;
+      }
+      .heroes {
+          margin: 0 0 2em 0;
+          list-style-type: none;
+          padding: 0;
+          width: 11em;
+      }
+      .heroes li {
+          //cursor: pointer;
+          position: relative;
+          left: 0;
+          background-color: #EEE;
+          margin: .5em;
+          padding: .3em 0;
+          height: 1.6em;
+          border-radius: 4px;
+      }
+      .heroes li.selected:hover {
+          background-color: #BBD8DC !important;
+          color: white;
+      }
+      .heroes li:hover {
+          color: #607D8B;
+          background-color: #DDD;
+          left: .1em;
+      }
+      .heroes .text {
+          position: relative;
+          top: -3px;
+      }
+      .heroes .badge {
+          display: inline-block;
+          font-size: small;
+          color: white;
+          padding: 0.8em 0.7em 0 0.7em;
+          background-color: #607D8B;
+          line-height: 1em;
+          position: relative;
+          left: -1px;
+          top: -4px;
+          height: 1.8em;
+          margin-right: .8em;
+          border-radius: 4px 0 0 4px;
+      }
+  `]
 })
 
 export class AppComponent  {
   title: string = 'Tour of Heroes';
+
   hero: Hero = {
     id: 1,
     name: 'Windstorm',
   };
+
+  heroList: Hero[] = heroArray;
+
+  selectedHero: Hero;
+
+  select(hero: Hero) {
+      this.selectedHero = hero;
+  }
 }
